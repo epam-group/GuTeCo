@@ -7,6 +7,30 @@
 
 import SwiftUI
 
+struct teamTitle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(Color.white)
+            .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
+            .shadow(color: .black, radius: 6, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/)
+    }
+}
+
+extension View {
+    func teamTitled() -> some View{
+        self.modifier(teamTitle())
+    }
+}
+extension Image {
+    func flagImage() -> some View{
+        self
+            .renderingMode(/*@START_MENU_TOKEN@*/.original/*@END_MENU_TOKEN@*/)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.black, lineWidth: 3))
+            .shadow(color: .black, radius: 7, x: 5.0, y: 5.0)
+    }
+}
+
 struct ContentView: View {
     
     @State private var csgoTeams = ["Team Liquid", "Vitality", "BIG", "Virtus Pro", "Team Spirit"].shuffled()
@@ -21,27 +45,18 @@ struct ContentView: View {
                 VStack(spacing: 30){
                     HStack{
                         Spacer()
-                        Text("Score: \(gameScore)")
-                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                            .foregroundColor(.white)
-                            .shadow(color: .black, radius:6, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/)
+                        Text("Score: \(gameScore)").teamTitled().font(.title)
                     }
                 Spacer()
                 VStack{
                     Text("The homeland of")
                     Text("\(csgoTeams[selectedTeam]) is")
-                }.foregroundColor(Color.white)
-                .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
-                .shadow(color: .black, radius: 6, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/)
+                        }.teamTitled()
                     ForEach(0..<4) { team in
                     Button(action: {
                         self.flagTapped(team: team)
                     }){
-                        Image(self.csgoTeams[team])
-                            .renderingMode(/*@START_MENU_TOKEN@*/.original/*@END_MENU_TOKEN@*/)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.black, lineWidth: 3))
-                            .shadow(color: .black, radius: 7, x: 5.0, y: 5.0)
+                        Image(self.csgoTeams[team]).flagImage()
                                         }
                                 }
                 Spacer()
