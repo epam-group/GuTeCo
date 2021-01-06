@@ -38,6 +38,7 @@ struct ContentView: View {
     @State private var showScore = false
     @State private var testResult = ""
     @State private var gameScore = 0
+    @State private var rotationAmount = 0.0
     
     var body: some View {
             ZStack{
@@ -58,6 +59,10 @@ struct ContentView: View {
                     }){
                         Image(self.csgoTeams[team]).flagImage()
                                         }
+                    .rotation3DEffect(.degrees(rotationAmount),
+                        axis: /*@START_MENU_TOKEN@*/(x: 0.0, y: 1.0, z: 0.0)/*@END_MENU_TOKEN@*/
+                        
+                        )
                                 }
                 Spacer()
             }
@@ -74,6 +79,9 @@ struct ContentView: View {
         if team == selectedTeam{
             testResult = "Correct"
             gameScore+=1
+            withAnimation{
+                rotationAmount+=360
+            }
         }else{
             testResult = "Wrong"
             gameScore-=1
